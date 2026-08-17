@@ -1,90 +1,125 @@
 import Link from 'next/link';
 
 export default function HomePage() {
+  const categories = [
+    { name: "Wedding", emoji: "💍" },
+    { name: "Pre-Wedding", emoji: "❤️" },
+    { name: "Birthday", emoji: "🎂" },
+    { name: "Corporate", emoji: "🏢" },
+    { name: "Maternity", emoji: "🤰" },
+    { name: "Baby Shower", emoji: "👶" },
+    { name: "Product", emoji: "📸" },
+    { name: "Drone", emoji: "🚁" },
+  ];
+
+  const packages = [
+    { id: 1, name: "Basic Birthday Cover", duration: "2 Hours", price: 3500, label: "Bestseller" },
+    { id: 2, name: "Pre-Wedding Cinematic", duration: "6 Hours", price: 15000, label: "Trending" },
+    { id: 3, name: "Intimate Wedding", duration: "10 Hours", price: 25000, label: "Premium" },
+    { id: 4, name: "Candid Baby Shower", duration: "3 Hours", price: 5000, label: "New" },
+    { id: 5, name: "Corporate Event", duration: "4 Hours", price: 8000, label: "" },
+  ];
+
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 tracking-tight mb-6">
-            Need a Photographer in Kolkata?
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Book professional photographers instantly for your next event, wedding, or personal shoot. Transparent pricing and guaranteed quality.
-          </p>
-          <Link href="/booking" className="inline-block bg-black text-white text-lg px-8 py-4 rounded-md font-semibold hover:bg-gray-800 transition">
-            BOOK A PHOTOGRAPHER
-          </Link>
-        </div>
-      </section>
-
-      {/* Trust Bar */}
-      <section className="border-y bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="flex flex-col items-center">
-              <span className="text-3xl mb-2">⏱️</span>
-              <span className="text-sm font-bold text-gray-900">Fixed Duration</span>
-              <span className="text-xs text-gray-500 mt-1">Know exactly what you get</span>
+    <div className="bg-gray-50 min-h-screen pb-20">
+      
+      {/* Banner Section (Like Instamart/Blinkit Top Carousel) */}
+      <div className="bg-blue-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between">
+          <div className="text-white space-y-4 max-w-xl text-center md:text-left mb-8 md:mb-0">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+              InstaImage in 60 Minutes!
+            </h1>
+            <p className="text-blue-100 text-lg font-medium">
+              Book professional photographers near you instantly. No quotes, no waiting.
+            </p>
+          </div>
+          <div className="hidden md:flex flex-row space-x-4">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center text-white border border-white/20">
+              <div className="text-3xl font-black mb-1">100%</div>
+              <div className="text-sm font-medium text-blue-100">Verified Pros</div>
             </div>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl mb-2">💰</span>
-              <span className="text-sm font-bold text-gray-900">Transparent Pricing</span>
-              <span className="text-xs text-gray-500 mt-1">No hidden fees or surprises</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl mb-2">📸</span>
-              <span className="text-sm font-bold text-gray-900">Vetted Pros</span>
-              <span className="text-xs text-gray-500 mt-1">Only the best local talent</span>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center text-white border border-white/20">
+              <div className="text-3xl font-black mb-1">0</div>
+              <div className="text-sm font-medium text-blue-100">Hidden Fees</div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Popular Packages */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Popular Packages</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-lg shadow-sm border p-6 flex flex-col items-center text-center">
-                <div className="w-full h-48 bg-gray-200 rounded-md mb-4 flex items-center justify-center text-gray-400">
-                  Image Placeholder
+      {/* Category Grid (The "Aisles") */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Shop by Occasion</h2>
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-4">
+          {categories.map((cat, idx) => (
+            <Link href={`/services`} key={idx} className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md hover:border-blue-200 transition transform hover:-translate-y-1 cursor-pointer group">
+              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{cat.emoji}</div>
+              <span className="text-xs md:text-sm font-semibold text-gray-700 leading-tight">{cat.name}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Quick Add Horizontal Scroll */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <div className="flex justify-between items-end mb-4">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">Bestselling Packages</h2>
+            <p className="text-sm text-gray-500 mt-1">Book instantly for your upcoming event</p>
+          </div>
+          <Link href="/packages" className="text-blue-600 text-sm font-bold hover:underline">See All</Link>
+        </div>
+        
+        <div className="flex overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 space-x-4 snap-x hide-scrollbar">
+          {packages.map((pkg) => (
+            <div key={pkg.id} className="min-w-[280px] max-w-[280px] snap-start bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition flex flex-col relative">
+              {pkg.label && (
+                <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-[10px] uppercase font-bold px-2 py-1 rounded-md z-10 shadow-sm">
+                  {pkg.label}
                 </div>
-                <h3 className="text-xl font-bold mb-2">Package {i}</h3>
-                <p className="text-gray-600 mb-4">A great package for your photography needs.</p>
-                <button className="mt-auto w-full border border-black text-black px-4 py-2 rounded-md hover:bg-gray-100 transition">
-                  View Details
-                </button>
+              )}
+              
+              {/* Product Image Mock */}
+              <div className="w-full h-40 bg-gray-100 rounded-xl mb-4 overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center justify-center text-5xl">📷</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-            {[
-              "1. Choose Shoot",
-              "2. Pick Package",
-              "3. Select Time",
-              "4. Book Pro",
-              "5. Enjoy Shoot",
-              "6. Get Photos",
-            ].map((step, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center text-xl font-bold mb-4">
-                  {idx + 1}
+              
+              <div className="flex-1">
+                <div className="flex items-center text-xs text-gray-500 mb-1 font-medium bg-gray-100 w-max px-2 py-0.5 rounded-md">
+                  🕒 {pkg.duration}
                 </div>
-                <p className="font-medium text-sm text-gray-700">{step.split('. ')[1]}</p>
+                <h3 className="text-base font-bold text-gray-900 leading-snug mb-1 line-clamp-2 h-10">{pkg.name}</h3>
               </div>
-            ))}
-          </div>
+              
+              <div className="mt-4 flex items-center justify-between">
+                <div>
+                  <span className="text-lg font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
+                </div>
+                <Link href="/booking" className="bg-blue-50 text-blue-700 border border-blue-200 font-bold px-5 py-2 rounded-xl text-sm hover:bg-blue-600 hover:text-white transition uppercase shadow-sm">
+                  Add
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+
+      {/* Trust & Guarantee Banner */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col md:flex-row items-center justify-between shadow-sm">
+          <div className="flex items-center space-x-4 mb-4 md:mb-0">
+            <div className="bg-green-100 p-3 rounded-full text-green-600">
+               🛡️
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900">100% Satisfaction Guarantee</h3>
+              <p className="text-sm text-gray-500">Not happy with the photos? We'll re-shoot it for free.</p>
+            </div>
+          </div>
+          <Link href="/terms" className="text-sm font-bold text-gray-500 hover:text-blue-600 underline">Read our policy</Link>
+        </div>
+      </div>
+
     </div>
   );
 }
