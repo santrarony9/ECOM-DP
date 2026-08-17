@@ -4,36 +4,38 @@
 You have just been handed over a sophisticated, modern web application project. This document contains the entire "brain state" of the previous AI (Antigravity) that built the foundation of this platform. Please read this entirely before making any architectural decisions or modifications.
 
 ## 1. Project Overview
-This is an **On-Demand Photography Booking Platform** (similar to Uber for photographers). Customers can browse services, select packages, purchase add-ons, choose flexible or strict timelines, and book a photographer at a specific location and time. 
+This is an **On-Demand Photography Booking Platform** (similar to Uber for photographers). Customers can browse services, select packages, purchase add-ons, choose flexible or strict timelines, log in securely, and book a photographer at a specific location and time. 
 
 ## 2. Technology Stack
-*   **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS v3, Zustand (Global State Management), Lucide React (Icons).
-*   **Backend**: NestJS (Monorepo architecture), TypeScript, Mongoose v9 (MongoDB), Redis, BullMQ (Background Jobs).
+*   **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS v3, Zustand (Global State Management).
+*   **Backend**: NestJS (Monorepo architecture), TypeScript, Mongoose v9 (MongoDB), Passport.js (JWT Authentication).
 *   **Infrastructure**: Docker, Docker Compose, Nginx (Reverse Proxy on VPS).
 *   **Deployment**: Frontend on Vercel, Backend (API + Workers + Mongo + Redis) on a Debian VPS.
 
-## 3. Project Architecture
+## 3. Architecture & Security 
 
 ### Frontend (`/frontend`)
-*   **Routing**: Uses Next.js App Router with Route Groups (`(marketing)`, `(booking)`, `(dashboard)`).
-*   **State**: We use `Zustand` (`src/hooks/use-booking-store.ts`) to manage the multi-step booking flow.
+*   **Routing**: Uses Next.js App Router with Route Groups (`(marketing)`, `(booking)`, `(dashboard)`, `(auth)`).
+*   **State & API Client**: We use `Zustand` for state. The API Client (`src/lib/api.ts`) automatically intercepts requests and attaches the JWT `Authorization: Bearer <token>` from the local storage.
 *   **Booking Flow**: Located in `src/components/booking/`. 
-    *   *Crucial Logic*: `Step5DateTime.tsx` handles Strict vs Flexible time. `Step8Confirmation.tsx` acts as the receipt.
+    *   *Step 6 (Customer)* checks authentication. If logged out, it prompts the user to log in/register inline without losing cart state.
+    *   *Step 8 (Confirmation)* constructs the `CreateBookingDto` and executes the secure `POST /bookings` request.
+*   **Dashboards**: Located in `src/app/(dashboard)`.
+    *   `admin/page.tsx`: Analytics overview (Total Revenue, Total Bookings).
+    *   `admin/bookings/page.tsx`: Data table listing all global bookings.
+    *   `customer/page.tsx`: Personal portal for customers to see their exact spend and booking history.
 
 ### Backend (`/backend`)
-*   **Monorepo**: Uses `@nestjs/cli` monorepo. Apps are in `apps/` (`api`, `workers`). Shared libraries are in `libs/` (`@app/database`, `@app/auth`, `@app/storage`, etc.).
-*   **Database Pattern**: We strictly use the **Repository Pattern**. Look at `libs/database/src/abstract/abstract.repository.ts`. All feature repositories (e.g., `BookingsRepository`) must extend this. 
-    *   *Note:* We upgraded to Mongoose v9. The `FilterQuery` type was removed in v9, so we use `Record<string, any>` in the AbstractRepository for queries.
-*   **Seeding**: There is a `seed.ts` script in `apps/api/src/` to populate the database with dummy Services, Packages, and Addons. Run with `npm run seed`.
+*   **Users & Auth Module**: Fully implemented in `apps/api/src/modules/users` and `modules/auth`. We use `bcrypt` for password hashing and `@nestjs/jwt` for token signing. 
+*   **Security**: All routes are protected by default via `JwtAuthGuard` and `RolesGuard` (`@app/auth`). Use `@Public()` to bypass, or `@Roles(Role.CUSTOMER, Role.ADMIN)` to restrict access.
+*   **Database Pattern**: We strictly use the **Repository Pattern**. Look at `libs/database/src/abstract/abstract.repository.ts`. All feature repositories (e.g., `BookingsRepository`) must extend this. (Note: Mongoose v9 uses `Record<string, any>` instead of `FilterQuery`).
 
 ## 4. Key Business Logic (MUST READ)
 
 ### Strict vs. Flexible Time
-We implemented a dynamic time feature:
 *   **Strict Time**: The default. Customer gets exactly the package duration.
 *   **Flexible Time**: Customer can pre-purchase *Extra Hours*. 
-*   *Database Implementation*: The `Package` schema has `allowExtraHours` (boolean) and `extraHourRate` (number). The `Booking` schema tracks `timeFlexibility` (Enum) and `extraHoursBooked`.
-*   *Pricing Engine*: The logic to calculate `totalPrice` = `basePrice` + `addonsPrice` + (`extraHoursBooked` * `extraHourRate`) + `surcharges` is securely calculated in `backend/apps/api/src/modules/bookings/bookings.service.ts`. **Do not duplicate this logic on the frontend.**
+*   *Pricing Engine*: The logic to calculate `totalPrice` = `basePrice` + `addonsPrice` + (`extraHoursBooked` * `extraHourRate`) + `surcharges` + `deliveryCharge` - `discount` is securely calculated in `BookingsService.createBooking`. **Do not duplicate this logic on the frontend.**
 
 ### Addons
 Customers can select multiple addons (Drone, Video, Express Edit). This is managed via an array of `addonIds` in the Zustand store and resolved to their actual prices in the Backend `BookingsService`.
@@ -43,17 +45,18 @@ Customers can select multiple addons (Drone, Video, Express Edit). This is manag
 *   We use a custom `deploy.ps1` PowerShell script at the root directory to securely zip the backend, SCP it to the VPS, and run `docker-compose up -d --build`.
 *   `docker-compose.yml` spins up: `nginx`, `api` (port 3000), `workers`, `mongodb` (local volume), and `redis`.
 *   Nginx routes `/api` to the backend container. 
-*   **DO NOT PUSH `node_modules` OR `.env` TO GIT.** The `.gitignore` is properly configured at the root.
+*   **DO NOT PUSH `node_modules` OR `.env` TO GIT.** 
 
-## 6. Current State & Pending Tasks (Phase 2)
-The core database, API endpoints, and Marketing/Booking UI are structurally complete. 
+## 6. Current State & Pending Tasks (Phase 3)
+The core database, API endpoints, Authentication, Dashboards, and full End-to-End Booking Flow are **completely finished and wired together.** 
 
-**Next Immediate Steps to Execute:**
-1.  **Dashboards**: Build the Admin, Customer, and Photographer dashboards (`frontend/src/app/(dashboard)`).
+**The User explicitly decided to SKIP Payments, S3 Storage, and BullMQ for now. They will proceed manually (e.g., WhatsApp payments).**
+
+**Next Immediate Steps for the NEW AI to Execute:**
+1.  **Deployment**: Connect Vercel to GitHub for the frontend. Setup the VPS (install Docker, PM2, map domain names) and execute the deployment pipeline.
 2.  **Surcharges**: Implement manual Surcharge additions in the Admin Dashboard (the DB schema already supports an array of surcharges in `Booking.pricing.surcharges`).
-3.  **Authentication**: Implement JWT Auth (`libs/auth`) and integrate it with the Frontend.
-4.  **Payment Gateway**: Integrate Razorpay in `libs/payments`.
-5.  **Storage**: Implement AWS S3 uploads for portfolio/deliverables in `libs/storage`.
+3.  **Photographer Dashboard**: If staff photographers are added, build their portal to view assignments.
+4.  **Admin Catalog UI**: Build forms in the Admin Dashboard to Create/Update/Delete Services, Packages, and Add-ons visually (instead of via DB seed scripts).
 
 ---
 *Generated by Antigravity AI - August 2026*
