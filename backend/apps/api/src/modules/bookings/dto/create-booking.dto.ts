@@ -63,4 +63,12 @@ export class CreateBookingDto {
   @IsOptional()
   @IsString()
   customerNotes?: string;
+
+  @IsOptional()
+  @IsString() // 'STRICT' or 'FLEXIBLE'
+  timeFlexibility?: 'STRICT' | 'FLEXIBLE';
+
+  @IsOptional()
+  @IsNumber()
+  extraHoursBooked?: number;
 }

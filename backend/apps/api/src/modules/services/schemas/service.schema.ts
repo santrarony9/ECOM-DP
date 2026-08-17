@@ -6,11 +6,17 @@ export class Service extends AbstractDocument {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: true, unique: true })
+  slug: string;
+
   @Prop({ required: true })
   description: string;
 
   @Prop({ required: true })
-  price: number;
+  basePrice: number;
+
+  @Prop()
+  coverImage: string;
 
   @Prop({ default: true })
   isActive: boolean;

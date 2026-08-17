@@ -61,6 +61,8 @@ async function bootstrap() {
     price: 15000,
     durationMinutes: 240,
     deliverables: ['100 High-Res Edited Photos', 'Online Gallery'],
+    allowExtraHours: true,
+    extraHourRate: 3000,
     isActive: true,
   });
 
@@ -71,6 +73,8 @@ async function bootstrap() {
     price: 35000,
     durationMinutes: 480,
     deliverables: ['300 High-Res Edited Photos', '1 Cinematic Highlight Video', 'Premium Photo Album', 'Online Gallery'],
+    allowExtraHours: true,
+    extraHourRate: 5000,
     isActive: true,
   });
 

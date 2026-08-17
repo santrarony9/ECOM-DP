@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { BookingsRepository } from './bookings.repository';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { BookingStatus, PricingDetails } from './schemas/booking.schema';
+import { BookingStatus, PricingDetails, TimeFlexibility } from './schemas/booking.schema';
 import { Types } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 
@@ -53,7 +53,21 @@ export class BookingsService {
       
       let basePrice = pkg.price;
       let addonsPrice = 0;
+      let extraHoursPrice = 0;
+      let surchargesPrice = 0;
+      const surcharges: Array<{ name: string; amount: number; reason?: string }> = [];
       
+      if (
+        createBookingDto.timeFlexibility === 'FLEXIBLE' && 
+        createBookingDto.extraHoursBooked && 
+        createBookingDto.extraHoursBooked > 0
+      ) {
+        if (!pkg.allowExtraHours) {
+          throw new BadRequestException('This package does not allow extra flexible hours.');
+        }
+        extraHoursPrice = createBookingDto.extraHoursBooked * pkg.extraHourRate;
+      }
+
       if (createBookingDto.addonIds && createBookingDto.addonIds.length > 0) {
         for (const addonId of createBookingDto.addonIds) {
           const addon = await this.addonsService.findOne(addonId);
@@ -79,13 +93,16 @@ export class BookingsService {
          }
       }
       
-      const totalPrice = basePrice + addonsPrice + deliveryCharge - discount;
+      const totalPrice = basePrice + addonsPrice + extraHoursPrice + surchargesPrice + deliveryCharge - discount;
       const advancePaid = totalPrice * 0.2; // 20% advance
       const balanceDue = totalPrice - advancePaid;
   
       const pricing: PricingDetails = {
         basePrice,
         addonsPrice,
+        extraHoursPrice,
+        surcharges,
+        surchargesPrice,
         deliveryCharge,
         discount,
         totalPrice,
@@ -103,6 +120,8 @@ export class BookingsService {
         scheduledDate: new Date(createBookingDto.scheduledDate),
         startTime: createBookingDto.startTime,
         endTime: createBookingDto.endTime,
+        timeFlexibility: createBookingDto.timeFlexibility as TimeFlexibility || TimeFlexibility.STRICT,
+        extraHoursBooked: createBookingDto.extraHoursBooked || 0,
         location: createBookingDto.location,
         pricing,
         status: BookingStatus.PENDING_PAYMENT,

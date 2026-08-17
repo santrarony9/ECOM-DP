@@ -7,11 +7,19 @@ export class CreateServiceDto {
 
   @IsString()
   @IsNotEmpty()
+  slug: string;
+
+  @IsString()
+  @IsNotEmpty()
   description: string;
 
   @IsNumber()
   @IsNotEmpty()
-  price: number;
+  basePrice: number;
+
+  @IsString()
+  @IsOptional()
+  coverImage?: string;
 
   @IsBoolean()
   @IsOptional()

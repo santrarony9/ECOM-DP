@@ -14,6 +14,11 @@ export enum BookingStatus {
   REFUNDED = 'REFUNDED',
 }
 
+export enum TimeFlexibility {
+  STRICT = 'STRICT',
+  FLEXIBLE = 'FLEXIBLE',
+}
+
 @Schema({ _id: false })
 export class LocationDetails {
   @Prop({ required: true })
@@ -39,6 +44,15 @@ export class PricingDetails {
 
   @Prop({ required: true, min: 0, default: 0 })
   addonsPrice: number;
+
+  @Prop({ required: true, min: 0, default: 0 })
+  extraHoursPrice: number;
+
+  @Prop({ type: [{ name: String, amount: Number, reason: String }], default: [] })
+  surcharges: Array<{ name: string; amount: number; reason?: string }>;
+
+  @Prop({ required: true, min: 0, default: 0 })
+  surchargesPrice: number;
 
   @Prop({ required: true, min: 0, default: 0 })
   deliveryCharge: number;
@@ -84,6 +98,12 @@ export class Booking extends AbstractDocument {
 
   @Prop({ required: true })
   endTime: string; // e.g., "14:00"
+
+  @Prop({ required: true, enum: TimeFlexibility, default: TimeFlexibility.STRICT })
+  timeFlexibility: TimeFlexibility;
+
+  @Prop({ required: true, default: 0 })
+  extraHoursBooked: number;
 
   @Prop({ type: LocationDetails, required: true })
   location: LocationDetails;

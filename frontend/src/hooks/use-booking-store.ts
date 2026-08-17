@@ -12,6 +12,8 @@ interface BookingData {
     email: string;
     phone: string;
   };
+  timeFlexibility?: 'STRICT' | 'FLEXIBLE';
+  extraHoursBooked?: number;
 }
 
 interface BookingState {

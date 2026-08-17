@@ -1,6 +1,10 @@
-import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, IsMongoId, IsArray } from 'class-validator';
 
 export class CreatePackageDto {
+  @IsMongoId()
+  @IsNotEmpty()
+  serviceId: string;
+
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -13,7 +17,24 @@ export class CreatePackageDto {
   @IsNotEmpty()
   price: number;
 
+  @IsNumber()
+  @IsNotEmpty()
+  durationMinutes: number;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  deliverables?: string[];
+
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  allowExtraHours?: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  extraHourRate?: number;
 }
