@@ -38,11 +38,37 @@ export const useBookingStore = create<BookingState>()(
       submitBooking: async () => {
         const { data } = get();
         console.log('Submitting booking to backend API:', data);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 2000);
-        });
+        
+        // Convert local data to CreateBookingDto format
+        const payload = {
+          serviceId: data.serviceId,
+          packageId: data.packageId,
+          addonIds: data.addonIds || [],
+          scheduledDate: data.datetime, // Assuming datetime contains the full date string
+          startTime: "10:00", // Hardcoded mock for now since Step5 doesn't fully capture exact time string yet
+          endTime: "14:00", 
+          timeFlexibility: data.timeFlexibility || 'STRICT',
+          extraHoursBooked: data.extraHoursBooked || 0,
+          location: {
+            address: "123 Main St", // Hardcoded mock since Step4 Location UI is just a placeholder right now
+            pincode: "700001",
+            city: "Kolkata"
+          }
+        };
+
+        const { fetchApi } = await import('@/lib/api');
+        
+        try {
+          const response = await fetchApi('/bookings', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+          });
+          console.log('Booking Successful:', response);
+          return response;
+        } catch (error) {
+          console.error('Booking Failed:', error);
+          throw error;
+        }
       },
     }),
     {
