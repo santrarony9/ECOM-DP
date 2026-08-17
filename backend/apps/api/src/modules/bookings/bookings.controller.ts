@@ -26,6 +26,12 @@ export class BookingsController {
     return this.bookingsService.getUserBookings(req.user.sub);
   }
 
+  @Get('all')
+  @Roles(Role.ADMIN)
+  findAllBookings() {
+    return this.bookingsService.findAllBookings();
+  }
+
   @Get(':id')
   @Roles(Role.CUSTOMER, Role.ADMIN, Role.PHOTOGRAPHER)
   findOne(@Param('id') id: string) {

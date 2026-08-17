@@ -159,6 +159,10 @@ export class BookingsService {
     return this.bookingsRepository.find({ customerId: new Types.ObjectId(customerId) });
   }
 
+  async findAllBookings() {
+    return this.bookingsRepository.find({});
+  }
+
   async updateBookingStatus(id: string, status: BookingStatus) {
     return this.bookingsRepository.update(id, { status });
   }
