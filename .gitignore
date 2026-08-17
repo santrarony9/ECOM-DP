@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+coverage/
+.env
+deploy.tar
+deploy_key.log
+.DS_Store
+*.log

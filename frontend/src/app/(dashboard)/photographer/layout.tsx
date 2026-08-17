@@ -1,0 +1,46 @@
+import Link from "next/link";
+import { ReactNode } from "react";
+
+export default function PhotographerDashboardLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex h-screen bg-gray-50">
+      <aside className="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col">
+        <div className="h-16 flex items-center px-6 border-b border-gray-200">
+          <span className="text-lg font-bold text-gray-900">Pro Portal</span>
+        </div>
+        <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+          <Link href="/photographer" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+            Schedule
+          </Link>
+          <Link href="/photographer/assignments" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+            Assignments
+          </Link>
+          <Link href="/photographer/earnings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+            Earnings
+          </Link>
+          <Link href="/photographer/portfolio" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+            Portfolio
+          </Link>
+        </nav>
+      </aside>
+
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 lg:px-8">
+          <div className="flex items-center md:hidden">
+            <span className="text-lg font-bold text-gray-900">Pro Portal</span>
+          </div>
+          <div className="flex items-center space-x-4 ml-auto">
+            <button className="text-sm font-medium text-gray-500 hover:text-gray-700">Alerts</button>
+            <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center">
+              <span className="text-sm font-medium text-purple-700">P</span>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-6 lg:p-8">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}

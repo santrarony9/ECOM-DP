@@ -1,0 +1,110 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
+import { AbstractDocument } from '@app/database';
+
+export enum BookingStatus {
+  PENDING_PAYMENT = 'PENDING_PAYMENT',
+  CONFIRMED = 'CONFIRMED',
+  ASSIGNED = 'ASSIGNED', // Assigned to a photographer
+  IN_PROGRESS = 'IN_PROGRESS', // Shoot started
+  COMPLETED = 'COMPLETED', // Shoot finished, pending editing
+  EDITING = 'EDITING',
+  DELIVERED = 'DELIVERED', // Media delivered
+  CANCELLED = 'CANCELLED',
+  REFUNDED = 'REFUNDED',
+}
+
+@Schema({ _id: false })
+export class LocationDetails {
+  @Prop({ required: true })
+  address: string;
+
+  @Prop()
+  landmark?: string;
+
+  @Prop({ required: true })
+  pincode: string;
+
+  @Prop({ required: true })
+  city: string;
+
+  @Prop({ type: [Number], index: '2dsphere' }) // [longitude, latitude]
+  coordinates?: number[];
+}
+
+@Schema({ _id: false })
+export class PricingDetails {
+  @Prop({ required: true, min: 0 })
+  basePrice: number; // Package price
+
+  @Prop({ required: true, min: 0, default: 0 })
+  addonsPrice: number;
+
+  @Prop({ required: true, min: 0, default: 0 })
+  deliveryCharge: number;
+
+  @Prop({ required: true, min: 0, default: 0 })
+  discount: number;
+
+  @Prop({ required: true, min: 0 })
+  totalPrice: number;
+
+  @Prop({ required: true, min: 0 })
+  advancePaid: number; // For example 20%
+
+  @Prop({ required: true, min: 0 })
+  balanceDue: number;
+}
+
+@Schema({ timestamps: true, collection: 'bookings' })
+export class Booking extends AbstractDocument {
+  @Prop({ required: true, unique: true })
+  bookingId: string; // e.g., BKG-2024-0001
+
+  @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
+  customerId: Types.ObjectId;
+
+  @Prop({ required: true, type: Types.ObjectId, ref: 'Service' })
+  serviceId: Types.ObjectId;
+
+  @Prop({ required: true, type: Types.ObjectId, ref: 'Package' })
+  packageId: Types.ObjectId;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Addon' }], default: [] })
+  addonIds: Types.ObjectId[];
+
+  @Prop({ type: Types.ObjectId, ref: 'Photographer' })
+  assignedPhotographerId?: Types.ObjectId;
+
+  @Prop({ type: Date, required: true })
+  scheduledDate: Date;
+
+  @Prop({ required: true })
+  startTime: string; // e.g., "10:00"
+
+  @Prop({ required: true })
+  endTime: string; // e.g., "14:00"
+
+  @Prop({ type: LocationDetails, required: true })
+  location: LocationDetails;
+
+  @Prop({ type: PricingDetails, required: true })
+  pricing: PricingDetails;
+
+  @Prop({ required: true, enum: BookingStatus, default: BookingStatus.PENDING_PAYMENT })
+  status: BookingStatus;
+
+  @Prop({ type: Types.ObjectId, ref: 'Coupon' })
+  appliedCouponId?: Types.ObjectId;
+
+  @Prop()
+  customerNotes?: string;
+
+  @Prop()
+  adminNotes?: string;
+}
+
+export const BookingSchema = SchemaFactory.createForClass(Booking);
+BookingSchema.index({ customerId: 1, status: 1 });
+BookingSchema.index({ scheduledDate: 1 });
+BookingSchema.index({ 'location.coordinates': '2dsphere' });
