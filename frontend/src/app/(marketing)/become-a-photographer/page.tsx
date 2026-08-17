@@ -1,8 +1,8 @@
 export default function BecomePhotographerPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-      <h1 className="text-4xl font-bold mb-6">Join SnapMarket as a Pro</h1>
-      <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Grow your photography business, reach more clients, and manage your bookings effortlessly with SnapMarket.</p>
+      <h1 className="text-4xl font-bold mb-6">Join InstaImage as a Pro</h1>
+      <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Grow your photography business, reach more clients, and manage your bookings effortlessly with InstaImage.</p>
       <div className="bg-white p-8 md:p-12 border rounded-xl shadow-sm max-w-3xl mx-auto text-left">
         <h2 className="text-2xl font-bold mb-6 text-center">Apply Now</h2>
         <form className="space-y-4">

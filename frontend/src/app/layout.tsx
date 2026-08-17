@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SnapMarket",
-  description: "Find the best photographers in Kolkata",
+  title: "InstaImage",
+  description: "Book premium photography services on-demand.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

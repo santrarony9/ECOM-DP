@@ -4,7 +4,7 @@ export default function TermsPage() {
       <h1>Terms of Service</h1>
       <p>Last updated: {new Date().toLocaleDateString()}</p>
       <h2>1. Introduction</h2>
-      <p>Welcome to SnapMarket. By accessing our platform, you agree to these terms...</p>
+      <p>Welcome to InstaImage. By accessing our platform, you agree to these terms...</p>
       <h2>2. Booking Policy</h2>
       <p>All bookings are subject to availability and confirmation by the photographer...</p>
       <h2>3. User Conduct</h2>

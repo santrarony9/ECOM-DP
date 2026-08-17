@@ -9,8 +9,8 @@ export default function BookingLayout({
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="bg-white border-b py-4">
         <div className="max-w-3xl mx-auto px-4 flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold text-gray-900">
-            SnapMarket
+          <Link href="/" className="flex items-center text-xl font-bold">
+            InstaImage
           </Link>
           <div className="flex items-center space-x-4 text-sm text-gray-500">
             <span className="flex items-center">🔒 Secure Checkout</span>
