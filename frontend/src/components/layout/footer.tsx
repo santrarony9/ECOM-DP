@@ -27,11 +27,12 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Support</h4>
+            <h4 className="font-semibold mb-4">Support & Contact</h4>
             <ul className="space-y-2 text-gray-400">
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
               <li><Link href="/become-a-photographer" className="hover:text-white transition-colors">Join as Photographer</Link></li>
-              <li><Link href="/booking" className="hover:text-white transition-colors">Book a Shoot</Link></li>
+              <li className="pt-4 mt-4 border-t border-gray-800"><a href="mailto:info.instaimage@gmail.com" className="hover:text-white transition-colors">info.instaimage@gmail.com</a></li>
+              <li><a href="tel:+918240508915" className="hover:text-white transition-colors">+91 8240508915</a></li>
             </ul>
           </div>
         </div>
