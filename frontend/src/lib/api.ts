@@ -3,10 +3,26 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/v
 export async function fetchApi(endpoint: string, options?: RequestInit) {
   const url = `${API_BASE_URL}${endpoint}`;
   
-  const headers = {
+  // Get token directly from localStorage (Zustand persist key is 'auth-storage')
+  let token = null;
+  try {
+    const authStorage = localStorage.getItem('auth-storage');
+    if (authStorage) {
+      const parsed = JSON.parse(authStorage);
+      token = parsed.state?.token;
+    }
+  } catch (e) {
+    // Ignore SSR errors or parsing errors
+  }
+
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(options?.headers || {}),
+    ...(options?.headers as Record<string, string> || {}),
   };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
 
   try {
     const response = await fetch(url, { ...options, headers });

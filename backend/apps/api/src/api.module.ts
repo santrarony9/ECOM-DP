@@ -11,6 +11,8 @@ import { CouponsModule } from './modules/coupons/coupons.module';
 import { BookingsModule } from './modules/bookings/bookings.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { AvailabilityModule } from './modules/availability/availability.module';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { AvailabilityModule } from './modules/availability/availability.module';
     BookingsModule,
     PaymentsModule,
     AvailabilityModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],

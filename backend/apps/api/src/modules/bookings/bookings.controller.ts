@@ -15,10 +15,9 @@ export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
   @Post()
-  @Public() // Temporary bypass until Auth is built
+  @Roles(Role.CUSTOMER)
   create(@Request() req: AuthenticatedRequest, @Body() createBookingDto: CreateBookingDto) {
-    const customerId = req.user?.sub || '64d1f1e1c1b1a1a1a1a1b1b1'; // Mock ID if no auth token
-    return this.bookingsService.createBooking(customerId, createBookingDto);
+    return this.bookingsService.createBooking(req.user.sub, createBookingDto);
   }
 
   @Get('my-bookings')
