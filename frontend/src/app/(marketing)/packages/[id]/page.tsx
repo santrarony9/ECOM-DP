@@ -89,7 +89,7 @@ export default async function PackageDetailsPage({ params }: { params: { id: str
             </section>
 
             <section className="border-t border-gray-200 pt-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">What's included</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">What&apos;s included</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-start space-x-3">
                   <span className="text-green-500 text-xl">✓</span>
@@ -151,7 +151,7 @@ export default async function PackageDetailsPage({ params }: { params: { id: str
               <Link href="/booking" className="block w-full bg-blue-600 text-white text-center font-bold text-lg py-4 rounded-xl hover:bg-blue-700 transition transform hover:scale-[1.02] active:scale-95 shadow-md">
                 Book This Package
               </Link>
-              <p className="text-center text-sm text-gray-500 mt-4">You won't be charged yet</p>
+              <p className="text-center text-sm text-gray-500 mt-4">You won&apos;t be charged yet</p>
             </div>
           </div>
 
