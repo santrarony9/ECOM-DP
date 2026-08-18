@@ -71,11 +71,11 @@ export default function BookingDetailsPage() {
   return (
     <div>
       <div className="flex items-center space-x-4 mb-8">
-        <Link href="/admin/bookings" className="text-blue-600 hover:underline">← Back to Bookings</Link>
+        <Link href="/admin/bookings" className="text-black hover:underline">← Back to Bookings</Link>
         <h1 className="text-2xl font-bold text-gray-900">Booking: {booking.bookingId}</h1>
         <span className={`px-3 py-1 rounded-full text-xs font-bold ${
           booking.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-          booking.status === 'CONFIRMED' ? 'bg-blue-100 text-blue-800' :
+          booking.status === 'CONFIRMED' ? 'bg-gray-100 text-blue-800' :
           'bg-yellow-100 text-yellow-800'
         }`}>
           {booking.status}
@@ -123,7 +123,7 @@ export default function BookingDetailsPage() {
                 <span className="font-medium text-gray-900">₹{booking.pricing.basePrice}</span>
               </div>
               {booking.pricing.extraHoursPrice > 0 && (
-                <div className="flex justify-between text-blue-700 font-medium bg-blue-50 p-2 rounded">
+                <div className="flex justify-between text-black font-medium bg-gray-50 p-2 rounded">
                   <span>Extra Flexible Hours ({booking.extraHoursBooked} hrs)</span>
                   <span>+₹{booking.pricing.extraHoursPrice}</span>
                 </div>
@@ -162,7 +162,7 @@ export default function BookingDetailsPage() {
               <span className="text-green-600 font-bold">Advance Paid</span>
               <span className="text-green-600">₹{booking.pricing.advancePaid.toLocaleString()}</span>
             </div>
-            <div className="flex justify-between items-center mt-1 text-md font-bold text-blue-800 bg-blue-50 p-2 rounded mt-2">
+            <div className="flex justify-between items-center mt-1 text-md font-bold text-blue-800 bg-gray-50 p-2 rounded mt-2">
               <span>Balance Due</span>
               <span>₹{booking.pricing.balanceDue.toLocaleString()}</span>
             </div>

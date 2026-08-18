@@ -51,11 +51,11 @@ export function Step3Addons() {
                 key={addon._id} 
                 onClick={() => toggleAddon(addon._id)}
                 className={`cursor-pointer border-2 rounded-xl p-4 transition-all duration-200 flex items-center justify-between ${
-                  isSelected ? 'border-blue-600 bg-blue-50 shadow-sm' : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                  isSelected ? 'border-black bg-gray-50 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <div className="flex items-center space-x-4">
-                  <div className={`w-6 h-6 rounded border flex items-center justify-center ${isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 bg-white'}`}>
+                  <div className={`w-6 h-6 rounded border flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-300 bg-white'}`}>
                     {isSelected && <span className="text-white text-sm">✓</span>}
                   </div>
                   <div>
@@ -74,7 +74,7 @@ export function Step3Addons() {
 
       <div className="mt-8 flex justify-between">
         <button onClick={prevStep} className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium">Back</button>
-        <button onClick={nextStep} className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition">
+        <button onClick={nextStep} className="px-8 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-900 transition">
           Continue to Details
         </button>
       </div>

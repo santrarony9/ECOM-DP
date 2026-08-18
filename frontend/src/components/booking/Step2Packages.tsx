@@ -45,7 +45,7 @@ export function Step2Packages() {
             <div 
               key={pkg._id} 
               className={`relative border-2 rounded-2xl p-6 transition flex flex-col ${
-                selectedPackageId === pkg._id ? 'border-blue-600 bg-blue-50 shadow-md' : 'border-gray-200 bg-white hover:border-blue-300'
+                selectedPackageId === pkg._id ? 'border-black bg-gray-50 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'
               }`}
             >
               {pkg.isPopular && (
@@ -64,7 +64,7 @@ export function Step2Packages() {
               <button 
                 onClick={() => setPackage(pkg._id)}
                 className={`w-full py-3 rounded-xl font-bold transition-colors ${
-                  selectedPackageId === pkg._id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  selectedPackageId === pkg._id ? 'bg-black text-white' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                 }`}
               >
                 {selectedPackageId === pkg._id ? 'Selected' : 'Select Package'}

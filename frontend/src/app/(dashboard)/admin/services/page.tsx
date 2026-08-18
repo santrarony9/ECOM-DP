@@ -88,14 +88,14 @@ export default function AdminServicesPage() {
               type="checkbox" 
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" 
+              className="h-4 w-4 text-black focus:ring-blue-500 border-gray-300 rounded" 
             />
             <label className="ml-2 block text-sm text-gray-900">Active</label>
           </div>
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md font-bold hover:bg-blue-700 disabled:opacity-50"
+            className="bg-black text-white px-4 py-2 rounded-md font-bold hover:bg-black disabled:opacity-50"
           >
             {isSubmitting ? 'Creating...' : 'Create Service'}
           </button>

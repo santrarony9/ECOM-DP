@@ -9,16 +9,16 @@ export default function CustomerDashboardLayout({ children }: { children: ReactN
           <span className="text-lg font-bold text-gray-900">My Dashboard</span>
         </div>
         <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-          <Link href="/customer" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/customer" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Overview
           </Link>
-          <Link href="/customer/bookings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/customer/bookings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             My Bookings
           </Link>
-          <Link href="/customer/gallery" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/customer/gallery" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             My Gallery
           </Link>
-          <Link href="/customer/profile" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/customer/profile" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Profile Settings
           </Link>
         </nav>
@@ -31,8 +31,8 @@ export default function CustomerDashboardLayout({ children }: { children: ReactN
           </div>
           <div className="flex items-center space-x-4 ml-auto">
             <button className="text-sm font-medium text-gray-500 hover:text-gray-700">Notifications</button>
-            <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <span className="text-sm font-medium text-blue-700">C</span>
+            <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+              <span className="text-sm font-medium text-black">C</span>
             </div>
           </div>
         </header>

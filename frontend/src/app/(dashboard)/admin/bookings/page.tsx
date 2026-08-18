@@ -80,7 +80,7 @@ export default function AdminBookingsPage() {
                         </span>
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <Link href={`/admin/bookings/${booking._id}`} className="text-blue-600 hover:text-blue-900 font-bold">
+                        <Link href={`/admin/bookings/${booking._id}`} className="text-black hover:text-blue-900 font-bold">
                           Manage &rarr;
                         </Link>
                       </td>

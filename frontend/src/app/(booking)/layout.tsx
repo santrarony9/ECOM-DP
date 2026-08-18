@@ -7,14 +7,16 @@ export default function BookingLayout({
 }) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-white border-b py-4">
-        <div className="max-w-3xl mx-auto px-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center text-xl font-bold">
+      <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 py-4 sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto px-4 flex justify-between items-center">
+          <Link href="/" className="text-2xl font-black text-black tracking-tighter uppercase">
             InstaImage
           </Link>
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <span className="flex items-center">🔒 Secure Checkout</span>
-            <span className="hidden sm:flex items-center">⭐ Vetted Pros</span>
+          <div className="flex items-center space-x-6 text-sm font-semibold text-gray-500">
+            <span className="flex items-center space-x-2">
+              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+              <span>Secure Checkout</span>
+            </span>
           </div>
         </div>
       </header>

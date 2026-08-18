@@ -33,7 +33,7 @@ export default function PhotographerDashboardOverview() {
               <li key={assignment.id}>
                 <div className="px-4 py-4 sm:px-6 hover:bg-gray-50">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-indigo-600 truncate">
+                    <p className="text-sm font-medium text-black truncate">
                       {assignment.type} for {assignment.customer}
                     </p>
                     <div className="ml-2 flex-shrink-0 flex">

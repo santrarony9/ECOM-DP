@@ -10,22 +10,22 @@ export default function AdminDashboardLayout({ children }: { children: ReactNode
           <span className="text-lg font-bold text-gray-900">Admin Panel</span>
         </div>
         <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-          <Link href="/admin" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/admin" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Analytics Overview
           </Link>
-          <Link href="/admin/bookings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/admin/bookings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Bookings
           </Link>
-          <Link href="/admin/services" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/admin/services" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Services
           </Link>
-          <Link href="/admin/packages" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/admin/packages" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Packages
           </Link>
-          <Link href="/admin/addons" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/admin/addons" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Addons
           </Link>
-          <Link href="/admin/users" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+          <Link href="/admin/users" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black">
             Users
           </Link>
         </nav>

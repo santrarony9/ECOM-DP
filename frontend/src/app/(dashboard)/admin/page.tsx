@@ -46,7 +46,7 @@ export default function AdminDashboardOverview() {
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-6 py-6">
           <h3 className="text-sm font-medium text-gray-500 truncate">Active Bookings</h3>
-          <p className="mt-2 text-3xl font-bold text-indigo-600">{activeBookings.length}</p>
+          <p className="mt-2 text-3xl font-bold text-black">{activeBookings.length}</p>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-6 py-6">
           <h3 className="text-sm font-medium text-gray-500 truncate">Completed Shoots</h3>

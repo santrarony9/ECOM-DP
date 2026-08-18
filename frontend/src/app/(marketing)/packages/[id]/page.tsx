@@ -38,7 +38,7 @@ export default async function PackageDetailsPage({ params }: { params: { id: str
         
         {/* Header */}
         <div className="mb-6">
-          <Link href="/" className="text-sm font-medium text-blue-600 hover:underline mb-2 inline-block">
+          <Link href="/" className="text-sm font-medium text-black hover:underline mb-2 inline-block">
             &larr; Back to all packages
           </Link>
           <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight">
@@ -148,7 +148,7 @@ export default async function PackageDetailsPage({ params }: { params: { id: str
                 )}
               </div>
 
-              <Link href="/booking" className="block w-full bg-blue-600 text-white text-center font-bold text-lg py-4 rounded-xl hover:bg-blue-700 transition transform hover:scale-[1.02] active:scale-95 shadow-md">
+              <Link href="/booking" className="block w-full bg-black text-white text-center font-bold text-lg py-4 rounded-xl hover:bg-gray-900 transition transform hover:scale-[1.02] active:scale-95 shadow-md">
                 Book This Package
               </Link>
               <p className="text-center text-sm text-gray-500 mt-4">You won&apos;t be charged yet</p>

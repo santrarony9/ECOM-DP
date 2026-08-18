@@ -42,7 +42,7 @@ export function Step1Services() {
             key={service._id} 
             onClick={() => handleSelect(service._id)}
             className={`cursor-pointer border-2 rounded-xl p-6 transition-all duration-200 flex items-center space-x-4 ${
-              selectedServiceId === service._id ? 'border-blue-600 bg-blue-50 shadow-md' : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+              selectedServiceId === service._id ? 'border-black bg-gray-50 shadow-md' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
             }`}
           >
             <div className="text-4xl bg-white p-3 rounded-full shadow-sm">{service.name.includes('Wedding') ? '💍' : service.name.includes('Birthday') ? '🎂' : '📸'}</div>

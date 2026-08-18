@@ -110,7 +110,7 @@ export default function AdminPackagesPage() {
           
           <div className="flex flex-col justify-center space-y-2 mt-4">
             <div className="flex items-center">
-              <input type="checkbox" checked={allowExtraHours} onChange={(e) => setAllowExtraHours(e.target.checked)} className="h-4 w-4 text-blue-600 rounded" />
+              <input type="checkbox" checked={allowExtraHours} onChange={(e) => setAllowExtraHours(e.target.checked)} className="h-4 w-4 text-black rounded" />
               <label className="ml-2 block text-sm text-gray-900">Allow Flexible Extra Hours</label>
             </div>
             {allowExtraHours && (
@@ -134,17 +134,17 @@ export default function AdminPackagesPage() {
 
           <div className="flex flex-col justify-center space-y-2 mt-4">
             <div className="flex items-center">
-              <input type="checkbox" checked={isPopular} onChange={(e) => setIsPopular(e.target.checked)} className="h-4 w-4 text-blue-600 rounded" />
+              <input type="checkbox" checked={isPopular} onChange={(e) => setIsPopular(e.target.checked)} className="h-4 w-4 text-black rounded" />
               <label className="ml-2 block text-sm text-gray-900">Mark as "Bestseller/Popular"</label>
             </div>
             <div className="flex items-center">
-              <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="h-4 w-4 text-blue-600 rounded" />
+              <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="h-4 w-4 text-black rounded" />
               <label className="ml-2 block text-sm text-gray-900">Active</label>
             </div>
           </div>
 
           <div className="col-span-2 pt-4 border-t">
-            <button type="submit" disabled={isSubmitting} className="bg-blue-600 text-white px-6 py-2 rounded-md font-bold hover:bg-blue-700 disabled:opacity-50">
+            <button type="submit" disabled={isSubmitting} className="bg-black text-white px-6 py-2 rounded-md font-bold hover:bg-black disabled:opacity-50">
               {isSubmitting ? 'Creating...' : 'Create Package'}
             </button>
           </div>
