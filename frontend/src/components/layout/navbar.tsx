@@ -2,86 +2,61 @@
 
 import Link from 'next/link';
 import { useAuthStore } from '@/hooks/use-auth-store';
-import { Search, User, ShoppingBag, MapPin, Menu } from 'lucide-react';
+import { Search, User, Menu } from 'lucide-react';
 
 export function Navbar() {
   const { user, logout } = useAuthStore();
 
   return (
-    <header className="bg-white border-b sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo & Location */}
-          <div className="flex items-center space-x-6">
-            <Link href="/" className="text-3xl font-black text-black tracking-tighter">
+          {/* Logo */}
+          <div className="flex items-center space-x-8">
+            <Link href="/" className="text-2xl font-black text-black tracking-tighter uppercase">
               InstaImage
             </Link>
-            <div className="hidden md:flex items-center text-sm">
-              <MapPin className="h-5 w-5 text-blue-600 mr-1" />
-              <div>
-                <p className="font-bold text-gray-900 leading-none">Delivery to</p>
-                <p className="text-gray-500 text-xs">Kolkata, WB</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-2xl mx-8">
-            <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-600 focus:border-blue-600 sm:text-sm transition-colors"
-                placeholder="Search for 'Wedding Shoot', 'Drone', 'Candid'..."
-              />
-            </div>
+            
+            {/* Minimalist Desktop Nav */}
+            <nav className="hidden md:flex space-x-6">
+              <Link href="/services" className="text-sm font-semibold text-gray-600 hover:text-black transition">Services</Link>
+              <Link href="/portfolio" className="text-sm font-semibold text-gray-600 hover:text-black transition">Portfolio</Link>
+              <Link href="/photographers" className="text-sm font-semibold text-gray-600 hover:text-black transition">Creators</Link>
+            </nav>
           </div>
 
           {/* Right Icons */}
           <div className="flex items-center space-x-6">
+            <button className="hidden md:flex text-gray-500 hover:text-black transition">
+              <Search className="h-5 w-5" />
+            </button>
+
             <div className="hidden md:flex items-center">
               {user ? (
                 <div className="relative group cursor-pointer">
-                  <div className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 font-medium">
-                    <User className="h-6 w-6" />
+                  <div className="flex items-center space-x-2 text-gray-600 hover:text-black transition font-semibold text-sm">
+                    <User className="h-5 w-5" />
                     <span>Account</span>
                   </div>
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 hidden group-hover:block border">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl py-2 hidden group-hover:block border border-gray-100">
                     <Link href="/customer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">My Bookings</Link>
                     <button onClick={logout} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50">Sign out</button>
                   </div>
                 </div>
               ) : (
-                <Link href="/login" className="text-gray-700 hover:text-blue-600 font-medium flex items-center space-x-1">
-                  <span>Login</span>
+                <Link href="/login" className="text-sm font-semibold text-gray-600 hover:text-black transition">
+                  Login
                 </Link>
               )}
             </div>
 
-            <Link href="/booking" className="bg-blue-600 text-white px-5 py-3 rounded-xl font-bold flex items-center space-x-2 hover:bg-blue-700 transition transform hover:scale-105 active:scale-95 shadow-sm">
-              <ShoppingBag className="h-5 w-5" />
-              <span className="hidden sm:inline">Book Now</span>
+            <Link href="/booking" className="hidden sm:inline-flex bg-black text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-gray-800 transition shadow-sm">
+              Book Now
             </Link>
 
-            <button className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+            <button className="md:hidden p-2 text-black">
               <Menu className="h-6 w-6" />
             </button>
-          </div>
-        </div>
-        
-        {/* Mobile Search Bar */}
-        <div className="pb-4 md:hidden">
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-600 focus:border-blue-600 sm:text-sm"
-              placeholder="Search services..."
-            />
           </div>
         </div>
       </div>

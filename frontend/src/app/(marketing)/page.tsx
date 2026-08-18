@@ -15,124 +15,98 @@ export default async function HomePage() {
     console.error('Failed to fetch packages:', e);
   }
 
-  const categories = [
-    { name: "Wedding", emoji: "💍" },
-    { name: "Pre-Wedding", emoji: "❤️" },
-    { name: "Birthday", emoji: "🎂" },
-    { name: "Corporate", emoji: "🏢" },
-    { name: "Maternity", emoji: "🤰" },
-    { name: "Baby Shower", emoji: "👶" },
-    { name: "Product", emoji: "📸" },
-    { name: "Drone", emoji: "🚁" },
-  ];
+  const categories = ["All", "Wedding", "Pre-Wedding", "Corporate", "Maternity", "Portrait", "Events", "Drone"];
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
+    <div className="bg-white min-h-screen">
       
-      {/* Banner Section (Like Instamart/Blinkit Top Carousel) */}
-      <div className="bg-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between">
-          <div className="text-white space-y-4 max-w-xl text-center md:text-left mb-8 md:mb-0">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
-              Professional Photography, <br/><span className="text-blue-200">On-Demand.</span>
-            </h1>
-            <p className="text-blue-50 text-lg font-medium">
-              Book vetted professional photographers instantly. Transparent pricing, guaranteed quality.
-            </p>
-          </div>
-          <div className="hidden md:flex flex-row space-x-4">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center text-white border border-white/20">
-              <div className="text-3xl font-black mb-1">100%</div>
-              <div className="text-sm font-medium text-blue-100">Verified Pros</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center text-white border border-white/20">
-              <div className="text-3xl font-black mb-1">0</div>
-              <div className="text-sm font-medium text-blue-100">Hidden Fees</div>
-            </div>
+      {/* Creative Aesthetic Hero */}
+      <div className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-black">
+        {/* Background Video/Image Mock */}
+        <div className="absolute inset-0 w-full h-full opacity-60">
+          <img 
+            src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop" 
+            alt="Photography Hero" 
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-6">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-tight drop-shadow-lg">
+            Capture The Moment.
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 font-medium max-w-2xl mx-auto drop-shadow-md">
+            The marketplace for elite photographers. Instantly book verified professionals for your next event.
+          </p>
+          <div className="pt-4">
+            <Link href="#portfolio" className="bg-white text-black font-bold px-8 py-4 rounded-full text-sm uppercase tracking-wider hover:bg-gray-100 transition shadow-xl">
+              Explore Portfolio
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Category Grid (The "Aisles") */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Shop by Occasion</h2>
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-4">
+      {/* Filter Chips (Unified Theme) */}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-8 sticky top-20 z-40 bg-white/90 backdrop-blur-md py-4 border-b border-gray-100">
+        <div className="flex overflow-x-auto space-x-2 md:space-x-4 hide-scrollbar pb-2">
           {categories.map((cat, idx) => (
-            <Link href={`/services`} key={idx} className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md hover:border-blue-200 transition transform hover:-translate-y-1 cursor-pointer group">
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{cat.emoji}</div>
-              <span className="text-xs md:text-sm font-semibold text-gray-700 leading-tight">{cat.name}</span>
-            </Link>
+            <button key={idx} className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition ${
+              idx === 0 
+                ? 'bg-black text-white' 
+                : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-black border border-gray-200'
+            }`}>
+              {cat}
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Quick Add Horizontal Scroll */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-        <div className="flex justify-between items-end mb-4">
-          <div>
-            <h2 className="text-xl font-bold text-gray-900">Bestselling Packages</h2>
-            <p className="text-sm text-gray-500 mt-1">Book instantly for your upcoming event</p>
-          </div>
-          <Link href="/packages" className="text-blue-600 text-sm font-bold hover:underline">See All</Link>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {packages.length === 0 ? (
-            <div className="col-span-full text-gray-500 py-8 text-center bg-white rounded-2xl border border-gray-100">No packages available at the moment.</div>
-          ) : (
-            packages.map((pkg: any) => (
-              <div key={pkg._id} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-lg transition-shadow flex flex-col relative group cursor-pointer">
-                {pkg.isPopular && (
-                  <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-[10px] uppercase font-bold px-2 py-1 rounded-md z-10 shadow-sm">
-                    Bestseller
-                  </div>
-                )}
+      {/* High-Density Creative Grid */}
+      <div id="portfolio" className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        {packages.length === 0 ? (
+          <div className="text-center py-20 text-gray-500 font-medium">No packages available.</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12">
+            {packages.map((pkg: any) => (
+              <Link href={`/packages/${pkg._id}`} key={pkg._id} className="group cursor-pointer flex flex-col">
                 
-                {/* Product Image */}
-                <div className="w-full aspect-[4/3] bg-gray-100 rounded-xl mb-4 overflow-hidden relative group-hover:opacity-90 transition">
+                {/* Image Container (Minimalist, no border) */}
+                <div className="w-full aspect-[3/4] bg-gray-100 rounded-2xl overflow-hidden relative mb-4">
                   {pkg.images && pkg.images.length > 0 ? (
-                    <img src={pkg.images[0]} alt={pkg.name} className="w-full h-full object-cover" />
+                    <img 
+                      src={pkg.images[0]} 
+                      alt={pkg.name} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out" 
+                    />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-4xl">📷</div>
+                    <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                      <span className="text-4xl">📷</span>
+                    </div>
+                  )}
+                  {pkg.isPopular && (
+                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-black text-[10px] uppercase font-bold px-3 py-1.5 rounded-full shadow-sm">
+                      Bestseller
+                    </div>
                   )}
                 </div>
                 
-                <div className="flex-1">
-                  <div className="flex items-center text-xs text-gray-500 mb-2 font-medium bg-gray-50 w-max px-2 py-1 rounded-md border border-gray-100">
-                    🕒 {pkg.durationMinutes ? `${pkg.durationMinutes / 60} Hours` : "Flexible"}
+                {/* Text Details (High-end typography) */}
+                <div className="flex flex-col flex-1">
+                  <div className="flex justify-between items-start mb-1">
+                    <h3 className="text-base font-bold text-gray-900 leading-tight group-hover:underline decoration-2 underline-offset-2">{pkg.name}</h3>
+                    <span className="text-base font-bold text-gray-900 whitespace-nowrap ml-2">₹{pkg.price.toLocaleString()}</span>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 leading-snug mb-1">{pkg.name}</h3>
-                  <p className="text-sm text-gray-500 line-clamp-2 mb-4">{pkg.description}</p>
-                </div>
-                
-                <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-                  <div>
-                    <span className="text-xl font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
+                  <p className="text-sm text-gray-500 line-clamp-1 mb-2">{pkg.description}</p>
+                  
+                  <div className="mt-auto text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    {pkg.durationMinutes ? `${pkg.durationMinutes / 60} Hours` : "Flexible"}
                   </div>
-                  <Link href={`/packages/${pkg._id}`} className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow-sm">
-                    View &rarr;
-                  </Link>
                 </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* Trust & Guarantee Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col md:flex-row items-center justify-between shadow-sm">
-          <div className="flex items-center space-x-4 mb-4 md:mb-0">
-            <div className="bg-green-100 p-3 rounded-full text-green-600">
-               🛡️
-            </div>
-            <div>
-              <h3 className="font-bold text-gray-900">100% Satisfaction Guarantee</h3>
-              <p className="text-sm text-gray-500">Not happy with the photos? We'll re-shoot it for free.</p>
-            </div>
+              </Link>
+            ))}
           </div>
-          <Link href="/terms" className="text-sm font-bold text-gray-500 hover:text-blue-600 underline">Read our policy</Link>
-        </div>
+        )}
       </div>
 
     </div>
