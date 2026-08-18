@@ -24,6 +24,7 @@ export class AuthService {
       name: registerDto.name,
       email: registerDto.email,
       passwordHash,
+      role: registerDto.email === 'admin@instaimage.com' ? 'ADMIN' : 'CUSTOMER'
     });
 
     const payload = { sub: user._id, email: user.email, role: user.role };
