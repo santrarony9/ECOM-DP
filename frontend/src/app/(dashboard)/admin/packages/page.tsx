@@ -16,6 +16,8 @@ export default function AdminPackagesPage() {
   const [durationMinutes, setDurationMinutes] = useState(120);
   const [allowExtraHours, setAllowExtraHours] = useState(false);
   const [extraHourRate, setExtraHourRate] = useState(0);
+  const [images, setImages] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [isPopular, setIsPopular] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,6 +52,8 @@ export default function AdminPackagesPage() {
           name, description, price: Number(price), serviceId, 
           durationMinutes: Number(durationMinutes), 
           allowExtraHours, extraHourRate: Number(extraHourRate), 
+          images: images.split(',').map(url => url.trim()).filter(url => url),
+          videoUrl,
           isPopular, isActive 
         }),
       });
@@ -117,6 +121,17 @@ export default function AdminPackagesPage() {
             )}
           </div>
           
+          <div className="col-span-2 mt-2">
+            <label className="block text-sm font-medium text-gray-700">Image URLs (comma-separated)</label>
+            <input type="text" value={images} onChange={(e) => setImages(e.target.value)} placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+            <p className="text-xs text-gray-500 mt-1">Paste image URLs to display a gallery on the product page.</p>
+          </div>
+          
+          <div className="col-span-2">
+            <label className="block text-sm font-medium text-gray-700">YouTube / Vimeo Video URL (Optional)</label>
+            <input type="text" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="https://www.youtube.com/embed/..." className="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+          </div>
+
           <div className="flex flex-col justify-center space-y-2 mt-4">
             <div className="flex items-center">
               <input type="checkbox" checked={isPopular} onChange={(e) => setIsPopular(e.target.checked)} className="h-4 w-4 text-blue-600 rounded" />

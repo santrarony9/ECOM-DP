@@ -30,6 +30,15 @@ export class Package extends AbstractDocument {
 
   @Prop({ default: 0 })
   extraHourRate: number;
+
+  @Prop({ type: [String], default: [] })
+  images: string[];
+
+  @Prop()
+  videoUrl?: string;
+
+  @Prop({ default: false })
+  isPopular: boolean;
 }
 
 export const PackageSchema = SchemaFactory.createForClass(Package);

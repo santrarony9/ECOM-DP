@@ -88,9 +88,13 @@ export default async function HomePage() {
                   </div>
                 )}
                 
-                {/* Product Image Mock */}
+                {/* Product Image */}
                 <div className="w-full aspect-[4/3] bg-gray-100 rounded-xl mb-4 overflow-hidden relative group-hover:opacity-90 transition">
-                  <div className="absolute inset-0 flex items-center justify-center text-4xl">📷</div>
+                  {pkg.images && pkg.images.length > 0 ? (
+                    <img src={pkg.images[0]} alt={pkg.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-4xl">📷</div>
+                  )}
                 </div>
                 
                 <div className="flex-1">
@@ -105,8 +109,8 @@ export default async function HomePage() {
                   <div>
                     <span className="text-xl font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
                   </div>
-                  <Link href="/booking" className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow-sm">
-                    Book
+                  <Link href={`/packages/${pkg._id}`} className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow-sm">
+                    View &rarr;
                   </Link>
                 </div>
               </div>

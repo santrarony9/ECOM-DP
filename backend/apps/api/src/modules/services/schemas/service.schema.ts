@@ -20,6 +20,12 @@ export class Service extends AbstractDocument {
 
   @Prop({ default: true })
   isActive: boolean;
+
+  @Prop({ type: [String], default: [] })
+  images: string[];
+
+  @Prop()
+  videoUrl?: string;
 }
 
 export const ServiceSchema = SchemaFactory.createForClass(Service);
