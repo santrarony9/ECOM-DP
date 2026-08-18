@@ -4,34 +4,34 @@ export function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-1">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-2 md:col-span-1">
             <h3 className="text-xl font-bold mb-4">InstaImage</h3>
-            <p className="text-gray-400">Capturing moments, creating memories. Book professional photographers on-demand.</p>
+            <p className="text-gray-400 text-sm md:text-base">Capturing moments, creating memories. Book professional photographers on-demand.</p>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400">
+          <div className="col-span-1">
+            <h4 className="font-semibold mb-4 text-sm md:text-base">Quick Links</h4>
+            <ul className="space-y-2 text-sm md:text-base text-gray-400">
               <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
               <li><Link href="/packages" className="hover:text-white transition-colors">Packages</Link></li>
               <li><Link href="/portfolio" className="hover:text-white transition-colors">Portfolio</Link></li>
               <li><Link href="/reviews" className="hover:text-white transition-colors">Reviews</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link></li>
+          <div className="col-span-1">
+            <h4 className="font-semibold mb-4 text-sm md:text-base">Legal</h4>
+            <ul className="space-y-2 text-sm md:text-base text-gray-400">
+              <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors">Terms</Link></li>
+              <li><Link href="/refund-policy" className="hover:text-white transition-colors">Refund</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4">Support & Contact</h4>
-            <ul className="space-y-2 text-gray-400">
+          <div className="col-span-2 md:col-span-1">
+            <h4 className="font-semibold mb-4 text-sm md:text-base">Support & Contact</h4>
+            <ul className="space-y-2 text-sm md:text-base text-gray-400">
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
               <li><Link href="/become-a-photographer" className="hover:text-white transition-colors">Join as Photographer</Link></li>
-              <li className="pt-4 mt-4 border-t border-gray-800"><a href="mailto:info.instaimage@gmail.com" className="hover:text-white transition-colors">info.instaimage@gmail.com</a></li>
+              <li className="pt-4 mt-4 border-t border-gray-800"><a href="mailto:info.instaimage@gmail.com" className="hover:text-white transition-colors break-all">info.instaimage@gmail.com</a></li>
               <li><a href="tel:+918240508915" className="hover:text-white transition-colors">+91 8240508915</a></li>
             </ul>
           </div>
