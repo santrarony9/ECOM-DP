@@ -43,4 +43,13 @@ export class BookingsController {
   updateStatus(@Param('id') id: string, @Body('status') status: BookingStatus) {
     return this.bookingsService.updateBookingStatus(id, status);
   }
+
+  @Post(':id/surcharge')
+  @Roles(Role.ADMIN)
+  addSurcharge(
+    @Param('id') id: string, 
+    @Body() surcharge: { name: string; amount: number; reason?: string }
+  ) {
+    return this.bookingsService.addSurcharge(id, surcharge);
+  }
 }

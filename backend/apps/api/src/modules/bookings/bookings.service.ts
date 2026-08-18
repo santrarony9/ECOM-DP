@@ -148,7 +148,10 @@ export class BookingsService {
   }
 
   async getBookingById(id: string) {
-    const booking = await this.bookingsRepository.findById(id);
+    const booking = await this.bookingsRepository.model.findById(id)
+      .populate('customerId', 'name email phone')
+      .populate('serviceId', 'name')
+      .populate('packageId', 'name price');
     if (!booking) {
       throw new NotFoundException('Booking not found');
     }
@@ -156,14 +159,39 @@ export class BookingsService {
   }
 
   async getUserBookings(customerId: string) {
-    return this.bookingsRepository.find({ customerId: new Types.ObjectId(customerId) });
+    return this.bookingsRepository.model.find({ customerId: new Types.ObjectId(customerId), isDeleted: false })
+      .populate('packageId', 'name')
+      .sort({ createdAt: -1 });
   }
 
   async findAllBookings() {
-    return this.bookingsRepository.find({});
+    return this.bookingsRepository.model.find({ isDeleted: false })
+      .populate('customerId', 'name email')
+      .populate('packageId', 'name')
+      .sort({ createdAt: -1 });
   }
 
   async updateBookingStatus(id: string, status: BookingStatus) {
     return this.bookingsRepository.update(id, { status });
+  }
+
+  async addSurcharge(id: string, surcharge: { name: string; amount: number; reason?: string }) {
+    const booking = await this.bookingsRepository.findById(id);
+    if (!booking) throw new NotFoundException('Booking not found');
+
+    const newSurcharges = [...booking.pricing.surcharges, surcharge];
+    const newSurchargesPrice = booking.pricing.surchargesPrice + surcharge.amount;
+    const newTotalPrice = booking.pricing.totalPrice + surcharge.amount;
+    const newBalanceDue = booking.pricing.balanceDue + surcharge.amount;
+
+    return this.bookingsRepository.update(id, {
+      pricing: {
+        ...booking.pricing,
+        surcharges: newSurcharges,
+        surchargesPrice: newSurchargesPrice,
+        totalPrice: newTotalPrice,
+        balanceDue: newBalanceDue,
+      }
+    });
   }
 }

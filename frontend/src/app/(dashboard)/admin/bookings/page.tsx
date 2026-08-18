@@ -1,5 +1,5 @@
 "use client";
-
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { fetchApi } from '@/lib/api';
 
@@ -80,9 +80,9 @@ export default function AdminBookingsPage() {
                         </span>
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          View<span className="sr-only">, {booking.bookingId}</span>
-                        </a>
+                        <Link href={`/admin/bookings/${booking._id}`} className="text-blue-600 hover:text-blue-900 font-bold">
+                          Manage &rarr;
+                        </Link>
                       </td>
                     </tr>
                   ))}
