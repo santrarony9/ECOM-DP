@@ -37,79 +37,100 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create an Account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/login" className="font-medium text-black hover:underline">
-              sign in to your existing account
-            </Link>
-          </p>
+    <div className="min-h-screen flex bg-white">
+      {/* Left side - Image */}
+      <div className="hidden lg:block lg:w-1/2 relative">
+        <div className="absolute inset-0 bg-black/20 z-10"></div>
+        <img 
+          src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=2070&auto=format&fit=crop" 
+          alt="Register background" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute bottom-12 left-12 z-20 text-white max-w-md">
+          <h2 className="text-4xl font-black mb-4">Join the community.</h2>
+          <p className="text-lg font-medium text-gray-200">Start booking world-class photographers and post-production experts instantly.</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 text-red-500 p-4 rounded-lg text-sm text-center">
-              {error}
-            </div>
-          )}
-          
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label htmlFor="name">Full Name</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email-address">Email address</label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                placeholder="Email address"
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-                placeholder="Password (min 6 characters)"
-              />
-            </div>
-          </div>
+      </div>
 
+      {/* Right side - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-24">
+        <div className="max-w-md w-full space-y-8">
           <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="disabled:opacity-50 group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            >
-              {loading ? 'Creating account...' : 'Create account'}
-            </button>
+            <h2 className="text-3xl font-black text-black tracking-tight">
+              Create an Account
+            </h2>
+            <p className="mt-3 text-sm text-gray-500 font-medium">
+              Already have an account?{' '}
+              <Link href="/login" className="text-black font-bold hover:underline decoration-2 underline-offset-4">
+                Sign in here
+              </Link>
+            </p>
           </div>
-        </form>
+          <form className="mt-10 space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-semibold border border-red-100">
+                {error}
+              </div>
+            )}
+            
+            <div className="space-y-5">
+              <div>
+                <label htmlFor="name" className="block text-sm font-bold text-gray-900 mb-2">Full Name</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  className="appearance-none block w-full px-4 py-4 border border-gray-200 rounded-xl bg-gray-50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                  placeholder="John Doe"
+                />
+              </div>
+              <div>
+                <label htmlFor="email-address" className="block text-sm font-bold text-gray-900 mb-2">Email Address</label>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="appearance-none block w-full px-4 py-4 border border-gray-200 rounded-xl bg-gray-50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                  placeholder="name@example.com"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-sm font-bold text-gray-900 mb-2">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="appearance-none block w-full px-4 py-4 border border-gray-200 rounded-xl bg-gray-50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                  placeholder="At least 6 characters"
+                />
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="disabled:opacity-50 w-full flex justify-center py-4 px-4 text-sm font-bold rounded-xl text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition shadow-lg transform hover:-translate-y-0.5 active:translate-y-0"
+              >
+                {loading ? 'Creating account...' : 'Create account'}
+              </button>
+            </div>
+            
+            <p className="text-xs text-gray-400 text-center font-medium mt-6">
+              By registering, you agree to our <Link href="/terms" className="underline">Terms of Service</Link> and <Link href="/privacy" className="underline">Privacy Policy</Link>.
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
