@@ -40,6 +40,9 @@ export function Navbar() {
                   </div>
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl py-2 hidden group-hover:block border border-gray-100">
                     <Link href="/customer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">My Bookings</Link>
+                    {user?.role === 'ADMIN' && (
+                      <Link href="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-bold border-t border-gray-100">Admin Dashboard</Link>
+                    )}
                     <button onClick={logout} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50">Sign out</button>
                   </div>
                 </div>
