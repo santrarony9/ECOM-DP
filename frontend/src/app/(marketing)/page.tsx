@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 export const revalidate = 60; // Revalidate every 60 seconds
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/v1';
