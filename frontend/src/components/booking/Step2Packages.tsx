@@ -1,112 +1,85 @@
 "use client";
 
-import { useBookingStore } from '@/hooks/use-booking-store';
 import { useEffect, useState } from 'react';
+import { useBookingStore } from '@/hooks/use-booking-store';
 import { fetchApi } from '@/lib/api';
-import { Check, Clock, Package as PackageIcon } from 'lucide-react';
-
-interface PackageData {
-  _id: string;
-  serviceId: string;
-  name: string;
-  description: string;
-  price: number;
-  durationMinutes: number;
-  deliverables: string[];
-  allowExtraHours: boolean;
-  extraHourRate: number;
-}
 
 export function Step2Packages() {
   const { data, updateData, nextStep, prevStep } = useBookingStore();
-  const [packages, setPackages] = useState<PackageData[]>([]);
+  const selectedServiceId = data.serviceId;
+  const selectedPackageId = data.packageId;
+  const setPackage = (id: string) => updateData({ packageId: id });
+  const [packages, setPackages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchApi('/packages')
-      .then(res => setPackages(res))
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+    async function loadPackages() {
+      if (!selectedServiceId) return;
+      try {
+        const data = await fetchApi('/packages');
+        // Filter packages that belong to the selected service
+        const filtered = data.filter((p: any) => p.serviceId === selectedServiceId);
+        setPackages(filtered);
+      } catch (err) {
+        console.error('Failed to load packages:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadPackages();
+  }, [selectedServiceId]);
 
-  const selectedId = data.packageId;
-  const filteredPackages = packages.filter(pkg => pkg.serviceId === data.serviceId);
-
-  if (loading) {
-    return <div className="py-20 text-center text-gray-500 animate-pulse">Loading packages...</div>;
-  }
-
-  if (error) {
-    return <div className="py-20 text-center text-red-500 font-medium">Failed to load packages: {error}</div>;
-  }
-
-  if (filteredPackages.length === 0) {
-    return (
-      <div className="py-20 text-center text-gray-500">
-        <p className="mb-4">No packages found for this service.</p>
-        <button onClick={prevStep} className="text-black underline">Go back and select a different service</button>
-      </div>
-    );
-  }
+  if (loading) return <div className="py-8 text-center text-gray-500">Loading packages...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold mb-2">Select a Package</h2>
-      <p className="text-gray-500 mb-8">Choose the package that best fits your needs.</p>
+    <div>
+      <h2 className="text-2xl font-bold mb-6 text-gray-900">Choose a Package</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        {filteredPackages.map(pkg => {
-          const isSelected = selectedId === pkg._id;
-          return (
+      {packages.length === 0 ? (
+        <div className="py-8 text-center text-gray-500 bg-gray-50 rounded-xl border border-gray-200">
+          No packages found for this service.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {packages.map((pkg) => (
             <div 
-              key={pkg._id}
-              onClick={() => updateData({ packageId: pkg._id })}
-              className={`relative p-6 rounded-2xl border-2 cursor-pointer transition-all flex flex-col h-full ${isSelected ? 'border-black bg-gray-50 shadow-md' : 'border-gray-100 hover:border-gray-200 bg-white shadow-sm'}`}
+              key={pkg._id} 
+              className={`relative border-2 rounded-2xl p-6 transition flex flex-col ${
+                selectedPackageId === pkg._id ? 'border-blue-600 bg-blue-50 shadow-md' : 'border-gray-200 bg-white hover:border-blue-300'
+              }`}
             >
-              {isSelected && (
-                <div className="absolute top-4 right-4 bg-black text-white p-1 rounded-full">
-                  <Check className="w-4 h-4" />
-                </div>
+              {pkg.isPopular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                  Popular
+                </span>
               )}
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
+              <p className="text-gray-500 text-sm mb-4 flex-1">{pkg.description}</p>
               
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="font-bold text-2xl">{pkg.name}</h3>
-                  <div className="text-sm font-medium text-gray-500 flex items-center mt-1">
-                    <Clock className="w-4 h-4 mr-1" />
-                    {pkg.durationMinutes / 60} Hours
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold text-2xl">₹{pkg.price.toLocaleString()}</div>
-                </div>
+              <div className="bg-white rounded-lg p-3 mb-4 border border-gray-100">
+                <p className="text-2xl font-black text-gray-900">₹{pkg.price.toLocaleString()}</p>
+                <p className="text-sm font-medium text-gray-500 mt-1">Duration: {pkg.durationMinutes ? `${pkg.durationMinutes / 60} Hours` : "Flexible"}</p>
               </div>
               
-              <p className="text-sm text-gray-600 mb-6">{pkg.description}</p>
-              
-              <div className="mt-auto">
-                <h4 className="font-semibold text-sm mb-3 uppercase tracking-wider text-gray-400">Deliverables</h4>
-                <ul className="space-y-2">
-                  {pkg.deliverables.map((item, idx) => (
-                    <li key={idx} className="flex items-start text-sm">
-                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <button 
+                onClick={() => setPackage(pkg._id)}
+                className={`w-full py-3 rounded-xl font-bold transition-colors ${
+                  selectedPackageId === pkg._id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                }`}
+              >
+                {selectedPackageId === pkg._id ? 'Selected' : 'Select Package'}
+              </button>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
 
-      <div className="flex justify-between mt-8 pt-6 border-t">
-        <button onClick={prevStep} className="text-gray-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition font-medium">Back</button>
+      <div className="mt-8 flex justify-between">
+        <button onClick={prevStep} className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Back</button>
         <button 
           onClick={nextStep} 
-          disabled={!selectedId}
-          className="disabled:opacity-50 disabled:cursor-not-allowed bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition font-medium shadow-md shadow-black/10"
+          disabled={!selectedPackageId}
+          className="px-6 py-2 bg-black text-white rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-gray-800"
         >
           Continue
         </button>

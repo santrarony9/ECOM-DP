@@ -1,68 +1,138 @@
+"use client";
+
+import { useEffect, useState } from 'react';
+import { fetchApi } from '@/lib/api';
+
 export default function AdminServicesPage() {
-  const services = [
-    { id: 1, name: 'Wedding Photography', category: 'Events', price: '$1,500', status: 'Active' },
-    { id: 2, name: 'Portrait Session', category: 'Personal', price: '$250', status: 'Active' },
-    { id: 3, name: 'Corporate Event', category: 'Business', price: '$800', status: 'Active' },
-    { id: 4, name: 'Product Photography', category: 'Commercial', price: '$500', status: 'Draft' },
-  ];
+  const [services, setServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [isActive, setIsActive] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    loadServices();
+  }, []);
+
+  async function loadServices() {
+    try {
+      const data = await fetchApi('/services');
+      setServices(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await fetchApi('/services', {
+        method: 'POST',
+        body: JSON.stringify({ name, description, isActive }),
+      });
+      setName('');
+      setDescription('');
+      loadServices(); // Reload list
+    } catch (error) {
+      alert('Failed to create service');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Are you sure you want to delete this service?')) return;
+    try {
+      await fetchApi(`/services/${id}`, { method: 'DELETE' });
+      loadServices();
+    } catch (error) {
+      alert('Failed to delete service');
+    }
+  }
 
   return (
     <div>
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-2xl font-bold leading-6 text-gray-900">Services</h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Manage your photography services, categories, and base pricing.
-          </p>
-        </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Add Service
-          </button>
-        </div>
-      </div>
-      <div className="mt-8 flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Service Name</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Base Price</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                      <span className="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {services.map((service) => (
-                    <tr key={service.id}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{service.name}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{service.category}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{service.price}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
-                          service.status === 'Active' ? 'bg-green-50 text-green-700 ring-green-600/20' : 'bg-gray-50 text-gray-600 ring-gray-500/10'
-                        }`}>
-                          {service.status}
-                        </span>
-                      </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">Edit<span className="sr-only">, {service.name}</span></a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+      <h1 className="text-2xl font-bold text-gray-900 mb-8">Manage Services</h1>
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+        <h2 className="text-lg font-bold mb-4">Add New Service</h2>
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <input 
+              required
+              type="text" 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" 
+              placeholder="e.g. Wedding Photography" 
+            />
           </div>
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <textarea 
+              required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" 
+              rows={3}
+            />
+          </div>
+          <div className="flex items-center">
+            <input 
+              type="checkbox" 
+              checked={isActive}
+              onChange={(e) => setIsActive(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" 
+            />
+            <label className="ml-2 block text-sm text-gray-900">Active</label>
+          </div>
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md font-bold hover:bg-blue-700 disabled:opacity-50"
+          >
+            {isSubmitting ? 'Creating...' : 'Create Service'}
+          </button>
+        </form>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-gray-500">Loading services...</div>
+        ) : (
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {services.map((service) => (
+                <tr key={service._id}>
+                  <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{service.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{service.description}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${service.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      {service.isActive ? 'Active' : 'Inactive'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button onClick={() => handleDelete(service._id)} className="text-red-600 hover:text-red-900">Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

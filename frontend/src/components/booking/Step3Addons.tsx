@@ -1,80 +1,82 @@
 "use client";
 
-import { useBookingStore } from '@/hooks/use-booking-store';
-import { Plus, Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useBookingStore } from '@/hooks/use-booking-store';
 import { fetchApi } from '@/lib/api';
-
-interface AddonData {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-}
 
 export function Step3Addons() {
   const { data, updateData, nextStep, prevStep } = useBookingStore();
-  const [addons, setAddons] = useState<AddonData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  
-  const selectedIds = data.addonIds || [];
-
-  useEffect(() => {
-    fetchApi('/addons')
-      .then(res => setAddons(res))
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
-
+  const selectedAddonIds = data.addonIds || [];
   const toggleAddon = (id: string) => {
-    if (selectedIds.includes(id)) {
-      updateData({ addonIds: selectedIds.filter(a => a !== id) });
+    if (selectedAddonIds.includes(id)) {
+      updateData({ addonIds: selectedAddonIds.filter(aId => aId !== id) });
     } else {
-      updateData({ addonIds: [...selectedIds, id] });
+      updateData({ addonIds: [...selectedAddonIds, id] });
     }
   };
+  const [addons, setAddons] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  if (loading) {
-    return <div className="py-20 text-center text-gray-500 animate-pulse">Loading addons...</div>;
-  }
+  useEffect(() => {
+    async function loadAddons() {
+      try {
+        const data = await fetchApi('/addons');
+        setAddons(data);
+      } catch (err) {
+        console.error('Failed to load addons:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadAddons();
+  }, []);
 
-  if (error) {
-    return <div className="py-20 text-center text-red-500 font-medium">Failed to load addons: {error}</div>;
-  }
+  if (loading) return <div className="py-8 text-center text-gray-500">Loading addons...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h2 className="text-3xl font-bold mb-2">Enhance Your Shoot</h2>
-      <p className="text-gray-500 mb-8">Select any optional add-ons you'd like to include with your package.</p>
-      
-      <div className="space-y-4 mb-10">
-        {addons.map(addon => {
-          const isSelected = selectedIds.includes(addon._id);
-          return (
-            <div 
-              key={addon._id}
-              onClick={() => toggleAddon(addon._id)}
-              className={`p-5 rounded-xl border-2 cursor-pointer transition-all flex items-start space-x-4 ${isSelected ? 'border-black bg-gray-50' : 'border-gray-100 hover:border-gray-200 bg-white'}`}
-            >
-              <div className={`mt-1 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${isSelected ? 'bg-black text-white' : 'bg-gray-100 text-transparent'}`}>
-                <Check className="w-4 h-4" />
-              </div>
-              <div className="flex-1">
-                <div className="flex justify-between items-center mb-1">
-                  <h3 className="font-semibold text-lg">{addon.name}</h3>
-                  <span className="font-bold">+₹{addon.price}</span>
-                </div>
-                <p className="text-sm text-gray-500">{addon.description}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+    <div>
+      <h2 className="text-2xl font-bold mb-2 text-gray-900">Level up your shoot (Optional)</h2>
+      <p className="text-gray-500 mb-6">Select any additional services you might need.</p>
 
-      <div className="flex justify-between mt-8 pt-6 border-t">
-        <button onClick={prevStep} className="text-gray-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition font-medium">Back</button>
-        <button onClick={nextStep} className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition font-medium shadow-md shadow-black/10">Continue</button>
+      {addons.length === 0 ? (
+        <div className="py-8 text-center text-gray-500 bg-gray-50 rounded-xl border border-gray-200">
+          No addons available.
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {addons.map((addon) => {
+            const isSelected = selectedAddonIds.includes(addon._id);
+            return (
+              <div 
+                key={addon._id} 
+                onClick={() => toggleAddon(addon._id)}
+                className={`cursor-pointer border-2 rounded-xl p-4 transition-all duration-200 flex items-center justify-between ${
+                  isSelected ? 'border-blue-600 bg-blue-50 shadow-sm' : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                }`}
+              >
+                <div className="flex items-center space-x-4">
+                  <div className={`w-6 h-6 rounded border flex items-center justify-center ${isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 bg-white'}`}>
+                    {isSelected && <span className="text-white text-sm">✓</span>}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">{addon.name}</h3>
+                    <p className="text-sm text-gray-500">{addon.description}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-lg font-black text-gray-900">+₹{addon.price.toLocaleString()}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="mt-8 flex justify-between">
+        <button onClick={prevStep} className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium">Back</button>
+        <button onClick={nextStep} className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition">
+          Continue to Details
+        </button>
       </div>
     </div>
   );

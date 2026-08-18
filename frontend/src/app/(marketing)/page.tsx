@@ -1,6 +1,20 @@
 import Link from 'next/link';
 
-export default function HomePage() {
+export const revalidate = 60; // Revalidate every 60 seconds
+
+export default async function HomePage() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/v1';
+  let packages = [];
+  
+  try {
+    const res = await fetch(`${API_URL}/packages`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      packages = await res.json();
+    }
+  } catch (e) {
+    console.error('Failed to fetch packages:', e);
+  }
+
   const categories = [
     { name: "Wedding", emoji: "💍" },
     { name: "Pre-Wedding", emoji: "❤️" },
@@ -10,14 +24,6 @@ export default function HomePage() {
     { name: "Baby Shower", emoji: "👶" },
     { name: "Product", emoji: "📸" },
     { name: "Drone", emoji: "🚁" },
-  ];
-
-  const packages = [
-    { id: 1, name: "Basic Birthday Cover", duration: "2 Hours", price: 3500, label: "Bestseller" },
-    { id: 2, name: "Pre-Wedding Cinematic", duration: "6 Hours", price: 15000, label: "Trending" },
-    { id: 3, name: "Intimate Wedding", duration: "10 Hours", price: 25000, label: "Premium" },
-    { id: 4, name: "Candid Baby Shower", duration: "3 Hours", price: 5000, label: "New" },
-    { id: 5, name: "Corporate Event", duration: "4 Hours", price: 8000, label: "" },
   ];
 
   return (
@@ -71,36 +77,40 @@ export default function HomePage() {
         </div>
         
         <div className="flex overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 space-x-4 snap-x hide-scrollbar">
-          {packages.map((pkg) => (
-            <div key={pkg.id} className="min-w-[280px] max-w-[280px] snap-start bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition flex flex-col relative">
-              {pkg.label && (
-                <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-[10px] uppercase font-bold px-2 py-1 rounded-md z-10 shadow-sm">
-                  {pkg.label}
+          {packages.length === 0 ? (
+            <div className="text-gray-500 py-8 px-4 w-full text-center">No packages available at the moment.</div>
+          ) : (
+            packages.map((pkg: any) => (
+              <div key={pkg._id} className="min-w-[280px] max-w-[280px] snap-start bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition flex flex-col relative">
+                {pkg.isPopular && (
+                  <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-[10px] uppercase font-bold px-2 py-1 rounded-md z-10 shadow-sm">
+                    Bestseller
+                  </div>
+                )}
+                
+                {/* Product Image Mock */}
+                <div className="w-full h-40 bg-gray-100 rounded-xl mb-4 overflow-hidden relative">
+                  <div className="absolute inset-0 flex items-center justify-center text-5xl">📷</div>
                 </div>
-              )}
-              
-              {/* Product Image Mock */}
-              <div className="w-full h-40 bg-gray-100 rounded-xl mb-4 overflow-hidden relative">
-                <div className="absolute inset-0 flex items-center justify-center text-5xl">📷</div>
-              </div>
-              
-              <div className="flex-1">
-                <div className="flex items-center text-xs text-gray-500 mb-1 font-medium bg-gray-100 w-max px-2 py-0.5 rounded-md">
-                  🕒 {pkg.duration}
+                
+                <div className="flex-1">
+                  <div className="flex items-center text-xs text-gray-500 mb-1 font-medium bg-gray-100 w-max px-2 py-0.5 rounded-md">
+                    🕒 {pkg.durationMinutes ? `${pkg.durationMinutes / 60} Hours` : "Flexible"}
+                  </div>
+                  <h3 className="text-base font-bold text-gray-900 leading-snug mb-1 line-clamp-2 h-10">{pkg.name}</h3>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 leading-snug mb-1 line-clamp-2 h-10">{pkg.name}</h3>
-              </div>
-              
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <span className="text-lg font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
+                
+                <div className="mt-4 flex items-center justify-between">
+                  <div>
+                    <span className="text-lg font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
+                  </div>
+                  <Link href="/booking" className="bg-blue-50 text-blue-700 border border-blue-200 font-bold px-5 py-2 rounded-xl text-sm hover:bg-blue-600 hover:text-white transition uppercase shadow-sm">
+                    Book
+                  </Link>
                 </div>
-                <Link href="/booking" className="bg-blue-50 text-blue-700 border border-blue-200 font-bold px-5 py-2 rounded-xl text-sm hover:bg-blue-600 hover:text-white transition uppercase shadow-sm">
-                  Add
-                </Link>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
