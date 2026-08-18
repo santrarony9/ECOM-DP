@@ -34,10 +34,10 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between">
           <div className="text-white space-y-4 max-w-xl text-center md:text-left mb-8 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
-              InstaImage in 60 Minutes!
+              Professional Photography, <br/><span className="text-blue-200">On-Demand.</span>
             </h1>
-            <p className="text-blue-100 text-lg font-medium">
-              Book professional photographers near you instantly. No quotes, no waiting.
+            <p className="text-blue-50 text-lg font-medium">
+              Book vetted professional photographers instantly. Transparent pricing, guaranteed quality.
             </p>
           </div>
           <div className="hidden md:flex flex-row space-x-4">
@@ -76,12 +76,12 @@ export default async function HomePage() {
           <Link href="/packages" className="text-blue-600 text-sm font-bold hover:underline">See All</Link>
         </div>
         
-        <div className="flex overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 space-x-4 snap-x hide-scrollbar">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {packages.length === 0 ? (
-            <div className="text-gray-500 py-8 px-4 w-full text-center">No packages available at the moment.</div>
+            <div className="col-span-full text-gray-500 py-8 text-center bg-white rounded-2xl border border-gray-100">No packages available at the moment.</div>
           ) : (
             packages.map((pkg: any) => (
-              <div key={pkg._id} className="min-w-[280px] max-w-[280px] snap-start bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition flex flex-col relative">
+              <div key={pkg._id} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-lg transition-shadow flex flex-col relative group cursor-pointer">
                 {pkg.isPopular && (
                   <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-[10px] uppercase font-bold px-2 py-1 rounded-md z-10 shadow-sm">
                     Bestseller
@@ -89,22 +89,23 @@ export default async function HomePage() {
                 )}
                 
                 {/* Product Image Mock */}
-                <div className="w-full h-40 bg-gray-100 rounded-xl mb-4 overflow-hidden relative">
-                  <div className="absolute inset-0 flex items-center justify-center text-5xl">📷</div>
+                <div className="w-full aspect-[4/3] bg-gray-100 rounded-xl mb-4 overflow-hidden relative group-hover:opacity-90 transition">
+                  <div className="absolute inset-0 flex items-center justify-center text-4xl">📷</div>
                 </div>
                 
                 <div className="flex-1">
-                  <div className="flex items-center text-xs text-gray-500 mb-1 font-medium bg-gray-100 w-max px-2 py-0.5 rounded-md">
+                  <div className="flex items-center text-xs text-gray-500 mb-2 font-medium bg-gray-50 w-max px-2 py-1 rounded-md border border-gray-100">
                     🕒 {pkg.durationMinutes ? `${pkg.durationMinutes / 60} Hours` : "Flexible"}
                   </div>
-                  <h3 className="text-base font-bold text-gray-900 leading-snug mb-1 line-clamp-2 h-10">{pkg.name}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 leading-snug mb-1">{pkg.name}</h3>
+                  <p className="text-sm text-gray-500 line-clamp-2 mb-4">{pkg.description}</p>
                 </div>
                 
-                <div className="mt-4 flex items-center justify-between">
+                <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                   <div>
-                    <span className="text-lg font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
+                    <span className="text-xl font-black text-gray-900">₹{pkg.price.toLocaleString()}</span>
                   </div>
-                  <Link href="/booking" className="bg-blue-50 text-blue-700 border border-blue-200 font-bold px-5 py-2 rounded-xl text-sm hover:bg-blue-600 hover:text-white transition uppercase shadow-sm">
+                  <Link href="/booking" className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition shadow-sm">
                     Book
                   </Link>
                 </div>
