@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function PackageDetailsPage({ params }: { params: { id: string } }) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/v1';
